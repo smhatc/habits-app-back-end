@@ -12,6 +12,21 @@ const Habit = require("../models/Habit");
 router.use(verifyToken);
 
 // Habit Routes
+router.delete("/:habitId", async (req, res) => {
+  try {
+    const habit = await Habit.findById(req.params.habitId);
+
+    if (!habit.habitOwner.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that.");
+    }
+
+    const deletedHabit = await Habit.findByIdAndDelete(req.params.habitId);
+
+    res.status(200).json(deletedHabit);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
 
 // HabitLog Routes
 

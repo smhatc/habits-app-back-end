@@ -6,8 +6,7 @@ const verifyToken = require("../middleware/verify-token");
 
 const Habit = require("../models/Habit");
 
-// ROUTES
-// Protected Routes
+// PROTECTED ROUTES
 router.use(verifyToken);
 
 // Habit Routes

@@ -84,6 +84,7 @@ router.delete("/:habitId", async (req, res) => {
 });
 
 // HabitLog Routes
+// Create One
 router.post("/:habitId/logs", async (req, res) => {
   try {
     const habit = await Habit.findById(req.params.habitId);

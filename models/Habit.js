@@ -29,7 +29,7 @@ const habitSchema = new mongoose.Schema(
       required: true,
       enum: ["Daily", "Weekly", "Monthly"],
     },
-    habitLog: [habitLog],
+    habitLog: [habitLogSchema],
   },
   { timestamps: true }
 );

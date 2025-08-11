@@ -21,7 +21,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-
+router.get("/:habitId", async (req, res) => {
+  try {
+    const habit = await Habit.findById(req.params.habitId);
+    res.status(200).json(habit);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
 
 // HabitLog Routes
 

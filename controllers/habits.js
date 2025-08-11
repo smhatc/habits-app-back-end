@@ -11,6 +11,18 @@ const Habit = require("../models/Habit");
 // Protected Routes
 router.use(verifyToken);
 
+// CREATE NEW HABIT
+router.post("/", async (req, res) => {
+  try {
+    req.body.habitOwner = req.user._id;
+    const habit = await Habit.create(req.body);
+    habit._doc.habitOwner = req.user;
+    res.status(201).json(habit);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
 // Habit Routes
 router.get("/", async (req, res) => {
   try {

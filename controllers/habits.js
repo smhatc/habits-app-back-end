@@ -12,6 +12,16 @@ const Habit = require("../models/Habit");
 router.use(verifyToken);
 
 // Habit Routes
+router.get("/", async (req, res) => {
+  try {
+    const habits = await Habit.find({});
+    res.status(200).json(habits);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
+
 
 // HabitLog Routes
 

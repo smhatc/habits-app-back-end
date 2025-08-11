@@ -7,11 +7,11 @@ const verifyToken = require("../middleware/verify-token");
 const Habit = require("../models/Habit");
 
 // ROUTES
-
 // Protected Routes
 router.use(verifyToken);
 
 // Habit Routes
+// Create One
 router.post("/", async (req, res) => {
   try {
     req.body.habitOwner = req.user._id;
@@ -23,50 +23,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:habitId", async (req, res) => {
-  try {
-    const habit = await Habit.findById(req.params.habitId);
-
-    if (!habit.habitOwner.equals(req.user._id)) {
-      return res.status(403).send("You're not allowed to do that.");
-    }
-
-    const updatedHabit = await Habit.findByIdAndUpdate(
-      req.params.habitId,
-      req.body,
-      { new: true }
-    );
-
-    updatedHabit._doc.habitOwner = req.user;
-
-    res.status(200).json(updatedHabit);
-  } catch (error) {
-    res.status(500).json(error.message);
-  }
-});
-
-router.put("/:habitId", async (req, res) => {
-  try {
-    const habit = await Habit.findById(req.params.habitId);
-
-    if (!habit.habitOwner.equals(req.user._id)) {
-      return res.status(403).send("You're not allowed to do that.");
-    }
-
-    const updatedHabit = await Habit.findByIdAndUpdate(
-      req.params.habitId,
-      req.body,
-      { new: true }
-    );
-
-    updatedHabit._doc.habitOwner = req.user;
-
-    res.status(200).json(updatedHabit);
-  } catch (error) {
-    res.status(500).json(error.message);
-  }
-});
-
+// Read All
 router.get("/", async (req, res) => {
   try {
     const habits = await Habit.find({});
@@ -76,6 +33,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Read One
 router.get("/:habitId", async (req, res) => {
   try {
     const habit = await Habit.findById(req.params.habitId);
@@ -85,6 +43,30 @@ router.get("/:habitId", async (req, res) => {
   }
 });
 
+// Update One
+router.put("/:habitId", async (req, res) => {
+  try {
+    const habit = await Habit.findById(req.params.habitId);
+
+    if (!habit.habitOwner.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that.");
+    }
+
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      req.params.habitId,
+      req.body,
+      { new: true }
+    );
+
+    updatedHabit._doc.habitOwner = req.user;
+
+    res.status(200).json(updatedHabit);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
+// Delete One
 router.delete("/:habitId", async (req, res) => {
   try {
     const habit = await Habit.findById(req.params.habitId);

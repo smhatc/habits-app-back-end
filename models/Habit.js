@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 // SCHEMAS
-const habitLog = new mongoose.Schema({}, { timestamps: true });
+const habitLogSchema = new mongoose.Schema({}, { timestamps: true });
 
 const habitSchema = new mongoose.Schema(
   {

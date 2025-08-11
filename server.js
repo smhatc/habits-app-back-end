@@ -13,6 +13,7 @@ const verifyToken = require("./middleware/verify-token");
 const testJwtController = require("./controllers/test-jwt");
 const authController = require("./controllers/auth");
 const usersController = require("./controllers/users");
+const habitsController = require("./controllers/habits");
 
 const mongoose = require("mongoose");
 
@@ -35,6 +36,7 @@ app.use("/auth", authController);
 // PROTECTED ROUTES
 app.use(verifyToken);
 app.use("/users", usersController);
+app.use("/habits", habitsController);
 
 // STARTING THE SERVER
 app.listen(port, () => {

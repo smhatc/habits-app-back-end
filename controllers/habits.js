@@ -23,6 +23,50 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:habitId", async (req, res) => {
+  try {
+    const habit = await Habit.findById(req.params.habitId);
+
+    if (!habit.habitOwner.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that.");
+    }
+
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      req.params.habitId,
+      req.body,
+      { new: true }
+    );
+
+    updatedHabit._doc.habitOwner = req.user;
+
+    res.status(200).json(updatedHabit);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
+router.put("/:habitId", async (req, res) => {
+  try {
+    const habit = await Habit.findById(req.params.habitId);
+
+    if (!habit.habitOwner.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that.");
+    }
+
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      req.params.habitId,
+      req.body,
+      { new: true }
+    );
+
+    updatedHabit._doc.habitOwner = req.user;
+
+    res.status(200).json(updatedHabit);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
 router.get("/", async (req, res) => {
   try {
     const habits = await Habit.find({});

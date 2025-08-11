@@ -11,7 +11,7 @@ const Habit = require("../models/Habit");
 // Protected Routes
 router.use(verifyToken);
 
-// CREATE NEW HABIT
+// Habit Routes
 router.post("/", async (req, res) => {
   try {
     req.body.habitOwner = req.user._id;
@@ -23,7 +23,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Habit Routes
 router.get("/", async (req, res) => {
   try {
     const habits = await Habit.find({});
@@ -41,6 +40,7 @@ router.get("/:habitId", async (req, res) => {
     res.status(500).json(error.message);
   }
 });
+
 router.delete("/:habitId", async (req, res) => {
   try {
     const habit = await Habit.findById(req.params.habitId);
@@ -58,6 +58,19 @@ router.delete("/:habitId", async (req, res) => {
 });
 
 // HabitLog Routes
+router.post("/:habitId/logs", async (req, res) => {
+  try {
+    const habit = await Habit.findById(req.params.habitId);
+    habit.habitLog.push({});
+    await habit.save();
+
+    const newHabitLog = habit.habitLog[habit.habitLog.length - 1];
+
+    res.status(201).json(newHabitLog);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
 
 // EXPORTING ROUTES
 module.exports = router;

@@ -1,5 +1,7 @@
+// SETUP
 const mongoose = require("mongoose");
 
+// SCHEMAS
 const habitLog = new mongoose.Schema({}, { timestamps: true });
 
 const habitSchema = new mongoose.Schema(
@@ -32,6 +34,8 @@ const habitSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// MODELS
 const Habit = mongoose.model("Habit", habitSchema);
 
+// EXPORTING MODELS
 module.exports = Habit;

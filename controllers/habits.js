@@ -26,8 +26,10 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     let habits;
-    const searchQuery = req.query.search.toLowerCase();
-    const allHabits = await Habit.find({});
+    const searchQuery = req.query.search
+      ? req.query.search.toLowerCase()
+      : null;
+    const allHabits = await Habit.find({ habitOwner: req.user._id });
     if (searchQuery) {
       habits = allHabits.filter(
         (habit) =>

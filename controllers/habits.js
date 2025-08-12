@@ -25,7 +25,23 @@ router.post("/", async (req, res) => {
 // Read All
 router.get("/", async (req, res) => {
   try {
-    const habits = await Habit.find({});
+    let habits;
+    const searchQuery = req.query.search.toLowerCase();
+    const allHabits = await Habit.find({});
+    if (searchQuery) {
+      habits = allHabits.filter(
+        (habit) =>
+          habit.habitName.toLowerCase().includes(searchQuery) ||
+          habit.habitDescription.toLowerCase().includes(searchQuery)
+      );
+      if (habits.length === 0) {
+        return res.status(404).json({
+          error: "You have no habits matching the provided search criteria.",
+        });
+      }
+    } else {
+      habits = [...allHabits];
+    }
     res.status(200).json(habits);
   } catch (error) {
     res.status(500).json(error.message);

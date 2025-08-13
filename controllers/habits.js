@@ -37,8 +37,9 @@ router.get("/", async (req, res) => {
           habit.habitDescription.toLowerCase().includes(searchQuery)
       );
       if (habits.length === 0) {
-        return res.status(404).json({
-          error: "No habits match the search criteria.",
+        return res.status(200).json({
+          habits: [],
+          message: "No habits match the search criteria.",
         });
       }
     } else {
